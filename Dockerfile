@@ -13,7 +13,7 @@ RUN echo 'whoami ' >>/ok.sh
 RUN echo 'cd ' >>/ok.sh
 RUN echo "su -l -c 'vncserver :2000 -geometry 1360x768' "  >>/ok.sh
 RUN echo 'cd /noVNC-1.2.0' >>/ok.sh
-RUN echo './utils/launch.sh  --vnc localhost:7900 --listen 8900 ' >>/ok.sh
+RUN echo './utils/launch.sh  --vnc localhost:7900 --listen 12580 ' >>/ok.sh
 RUN chmod 755 /ok.sh
 EXPOSE 8900
 CMD  /ok.sh 
