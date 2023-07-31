@@ -1,0 +1,18 @@
+FROM arm64v8/debian:stable-slim
+COPY down.sh .
+RUN apt update -y && apt install curl wget unzip -y
+RUN bash ./down.sh
+RUN unzip v2ray-linux-arm64-v8a.zip
+
+FROM arm64v8/alpine:3.14
+WORKDIR /usr/local/bin/
+COPY --from=0 v2ray v2ray
+ARG web=https://git.005680.xyz/https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/
+RUN wget ${web}geoip.dat \
+&& wget ${web}geosite.dat
+COPY --from=0 geoip-only-cn-private.dat geoip-only-cn-private.dat
+ADD http://wp.005680.xyz/img/config.txt config.json
+RUN chmod +x v2ray
+RUN dos2unix config.json
+EXPOSE 9470
+CMD ["v2ray", "run", "-c", "config.json"]
